@@ -1,6 +1,8 @@
 package streamApiExample;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,12 +42,12 @@ public class Book {
     public static void main(String[] args) {
         List<Book> books = new ArrayList<>();
         books.add(new Book("book1", "bangla", 100L));
-        books.add(new Book("book2", "bangla", 200L));
-        books.add(new Book("book3", "english", 300L));
+        books.add(new Book("book2", "bangla", 300L));
+        books.add(new Book("book3", "english", 200L));
         books.add(new Book("book4", "english", 400L));
         books.add(new Book("book5", "arabic", 500L));
-        books.add(new Book("book6", "arabic", 600L));
-        books.add(new Book("book7", "arabic", 700L));
+        books.add(new Book("book6", "arabic", 700L));
+        books.add(new Book("book7", "arabic", 600L));
 
         String banglaBookNames = books.stream()
                 .filter(book -> book.getLanguage().equals("bangla"))
@@ -61,5 +63,12 @@ public class Book {
                 .collect(Collectors.joining(", "));
 
         System.out.println(arabicBookUnder600Price);
+
+        String sortedByPrice = books.stream()
+                .sorted(Comparator.comparingDouble(Book::getPrice))
+                .map(Book::getName)
+                .collect(Collectors.joining(", "));
+
+        System.out.println(sortedByPrice);
     }
 }
